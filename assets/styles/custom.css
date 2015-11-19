@@ -1,0 +1,11 @@
+
+.picker__select--month,
+.picker__select--year
+{
+    padding: 5px;
+}
+
+i.clickimage
+{
+  cursor: pointer;
+}

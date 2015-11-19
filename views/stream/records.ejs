@@ -1,0 +1,137 @@
+  <div class="container">
+  <div class="section">
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel z-depth-2 grey darken-1 white-text">
+          <div class="row">
+            <div class="col s12 center">
+
+              <form action="/stream/records/<%=sid%>" method="POST">
+
+              <div class="row">
+                <div class="input-field col s2">
+                  <label>Select Date:</label>
+                </div>
+                <div class="col s4">
+                  <input type="date" class="datepicker" name="dateToday" value="<%=date%>">
+                </div>
+                <div class="col s6">
+                &nbsp;
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="input-field col s2">
+                  <label>Select Time:</label>
+                </div>
+                <div class="col s4">
+                  <select style="color:white" name="fromTime" class="white-text" >
+                      <option value="" ></option>
+                  <% for (var i = 0; i < 24; i ++) { %>
+                    <% if (i + ":00" === fromTime ) {%>
+                      <option value="<%=i + ":00"%>" selected ><%= i + ":00"%></option>
+                    <%} else {%>
+                      <option value="<%=i + ":00"%>" ><%= i + ":00"%></option>
+                    <%}%>
+                  <% } %>
+                  </select>
+                </div>
+                <div class="input-field col s1">
+                  <label>To</label>
+                </div>
+                <div class="col s4 white-text">
+                  <select style="color:white" name="toTime" class="white-text">
+                      <option value="" ></option>
+                  <% for (var i = 0; i < 24; i ++) { %>
+                    <% if (i + ":00" === toTime ) {%>
+                      <option value="<%=i + ":00"%>" selected ><%= i + ":00"%></option>
+                    <%} else {%>
+                      <option value="<%=i + ":00"%>" ><%= i + ":00"%></option>
+                    <%}%>
+                  <% } %>
+                      <option value="23:59" <% if ("23:59" === toTime) { %> selected <%}%>  >23:59</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col s2">
+                  <input class="with-gap" name="recordKind" type="radio" id="cloud" />
+                  <label for="cloud">Cloud</label>
+                </div>
+                <div class="col s2">
+                  <input class="with-gap" name="recordKind" type="radio" id="local" />
+                  <label for="local">Local</label>
+                </div>
+                <div class="col s6 right">
+                  <button class="col s4 btn waves-effect waves-light right">Search<i class="mdi-action-search left"></i></button>
+                </div>
+              </div>
+
+              </form>
+
+              <div class="row">
+                <div class="col s12">
+                <table class="centered bordered">
+                  <thead>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </thead>
+                  <tbody>
+                    <% if(stream !== undefined) {
+                    aryRecords.forEach(function(record) { 
+                    %>
+                    <tr>
+                      <td>
+                      <%if (record.thumb_path) {%>
+                      <img class="responsive-img" width="50" height="50" src="<%=record.thumb_path%>"/>
+                      <%} else { %>
+                      <i class="mdi-action-perm-media medium center"></i>
+                      <% } %>
+                      </td>
+                      <td>
+                        <h5 style="text-align:center">
+                          <%= moment(record.start_time).format('MM-DD-YYYY, hh:mm:ss a') %><br/>
+                          <!--%= moment(record.createdAt).format('MMM Do, h:mm') %><br/-->
+                          <!--small><%= moment(record.createdAt).fromNow() %></small-->
+                        </h5>
+
+                      </td>
+                      <td><a href="" onclick="$('#StreamSrcUrl').attr( 'src', '<%=assets_pre_path + record.record_name%>' ); $('#viewStreamModal').openModal();" class="modal-trigger">View</a></td>
+                      <td><a href="/Notify/download?url=<%=encodeURIComponent(record.record_name)%>">Download</a></td>
+                    </tr>  
+                    <% }); } %>
+                </tbody>
+              </table>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Structure -->
+<div id="viewStreamModal" class="modal">
+  <div class="modal-content">
+    <p>
+      <div class="row">
+          <center>
+          <video id="StreamSrcUrl" class="responsive-video" controls="controls" lass="grey lighten-1" style="border-radius:4px;padding:1px;"
+            src="">
+          </video>
+          </center>
+      </div>
+    </p>
+  </div>
+  <div class="modal-footer">
+      <button class="col s2 btn waves-effect waves-light modal-close">
+        Close
+      </button>
+  </div>
+</div>

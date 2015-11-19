@@ -1,0 +1,56 @@
+<div class="login container">
+  <div class="section">
+    <div class="row">
+      <div class="col s6 offset-s3">
+        <div class="card-panel z-depth-2 blue-grey darken-3 white-text">
+          <div class="row">
+            <div class="col s12 center">
+              <h2 class="light-weight"><%= __('heading.signup') %></h2>
+              <% if(typeof error !== 'undefined') { %>
+                <p class="flow-text red-text lighten-2"><small><%- __('error.' + error) %></small></p>
+              <% } %>
+              <form action="/signup" method="POST">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input class="validate" required type="text" autocomplete="off" name="userid" autofocus>
+                    <label><%= __('label.userid') %></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input class="validate" required type="text" autocomplete="off" name="username">
+                    <label><%= __('label.username') %></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input class="validate" required type="password" name="password">
+                    <label><%= __('label.password') %></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input class="validate" required type="password" name="confirm_password">
+                    <label><%= __('label.confirm_password') %></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input class="validate" required id="emailid" type="email" name="email">
+                    <label for="emailid" data-error="wrong" data-success="right"><%= __('label.email') %></label>
+                  </div>
+                </div>
+                <div class="row">
+                  <button class="col s12 btn waves-effect waves-light">
+                    <%= __('label.signup') %>
+                    <i class="mdi-content-send right"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

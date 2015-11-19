@@ -1,0 +1,49 @@
+{
+	"app.name": "Homesec",
+
+  "label.login": "Login",
+  "label.logout": "Logout",
+  "label.username": "Username",
+  "label.password": "Password",
+  "label.settings": "Settings",
+  "label.dashboard": "Dashboard",
+  "label.update": "Update",
+  "label.back_admin": "Back to Admin",
+  "label.create_user": "Create User",
+  "label.submit": "Submit",
+  "label.users": "Users",
+  "label.delete": "Delete",
+  "label.stream_add": "Add Stream",
+  
+  "label.admin": "Admin",
+  "label.admin.users": "Users",
+
+
+  "label.signup": "SignUp",
+  "label.userid": "ID",
+  "label.username": "Name",
+  "label.password": "Password",
+  "label.confirm_password": "Confirm Password",
+  "label.email": "Email Address",
+  "label.phonenumber": "Phone Number",
+  "label.addCamera": "Add Camera",
+  "label.fullname": "Full Name",
+
+  "heading.welcome": "Welcome",
+  "heading.signup": "Signup",
+
+  "instructions.login": "Please enter your username and password",
+
+  "error.login_invalid": "Invalid username or password",
+  "error.block_user": "Invalid User Account",
+  "error.settings.update": "Error updating settings",
+  "error.admin.create_user": "Error creating new user",
+  "error.admin.create_exists": "That username is already taken",
+
+  "error.admin.create_invalidparam": "You must input Name, Password, Full Name, Email, Phone Number",
+
+  "message.settings_updated": "Settings sucessfully updated!",
+  "message.user_created": "New user has been successfully created",
+  "message.no_streams": "You haven't added any streams yet",
+  "message.no_streams_add": "Add one here"
+}

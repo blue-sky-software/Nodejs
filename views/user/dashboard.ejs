@@ -1,0 +1,258 @@
+<div class="container">
+  <div class="section">
+    <% if(streams.length > 0 || (shareUrl != null && shareUrl.length > 0)) { %>
+      <div class="row">
+        <div class="col s3">
+          <ul class="collection with-header">
+            <li class="collection-header">
+              <h6>Actions</h6>
+            </li>
+            <li>
+            <a class="collection-item" href="/stream/create">
+              <i class="i mdi-content-add"></i>
+              <%= __('label.stream_add') %>
+            </a>
+            </li>
+
+            <% shareUrl.forEach(function(url) { %>
+            <li>
+            <a class="blue-text collection-item" href="/user/dashboard/<%= url.stream %>">
+              <i class="mdi-file-folder-shared"></i>
+              Stream shared by <%= url.from %>
+            </a>
+            </li>
+            <% }) %>
+
+            <% streams.forEach(function(stream) { %>
+            <li>
+            <a class="collection-item" href="/user/dashboard/<%= stream.id %>">
+              <i class="i mdi-action-view-stream"></i>
+              <%= stream.description %>
+            </a>
+            </li>
+            <% }) %>
+          </ul>
+        </div>
+
+        <% if(streamData != null) { %>
+        <div class="col s9">
+
+          <% if (!bsharedStream) {%>
+          <div class="row">
+            <div class="col s6">
+            &nbsp;
+            </div>
+            <div class="col s3 right">
+              <form action="/stream/settings/<%= streamData.id %>" method="GET">
+                <button class="col s12 btn waves-effect waves-light right">
+                  Settings
+                  <i class="mdi-action-settings left"></i>
+                </button>
+              </form>
+            </div>
+            <div class="col s3 right">
+              <form action="/stream/records/<%= streamData.id %>" method="GET">
+                <button class="col s12 btn waves-effect waves-light right">
+                  Records
+                  <i class="mdi-av-videocam left"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+          <%}%>
+
+          <div class="row">
+            <div class="card grey darken-1 stream">
+              <div class="card-content white-text">
+                <h5 style="font-weight:200">
+                  <%= streamData.description %>
+                  <!--small><sup><%= streamData.cameraModel %></sup></small-->
+                </h5>
+                <center>
+                <!--div class="responsive-video" style="width:500px;height:350px;margin:1 center;" id="player4">
+                </div-->
+
+
+
+
+
+                <style type="text/css" media="screen"> 
+			html, body  { height:100%; }
+			body { margin:0; padding:0; overflow:auto; text-align:center; 
+			background-color: #2d2d2d; }   
+			object:focus { outline:none; }
+			#flashContent { display:none; }
+		</style>
+
+                <script type="text/javascript" src="/js/swfobject.js"></script>
+                <script type="text/javascript">
+                    var liveUrl = '<%=streamData.live_url%>';
+                    var index = liveUrl.lastIndexOf("/") + 1;
+                    var streamUrl = liveUrl.substring(index);
+                    var connectionUrl = liveUrl.substring(0, index);
+                    // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+                    var swfVersionStr = "11.1.0";
+                    // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+                    var xiSwfUrlStr = "/playerProductInstall.swf";
+                    var flashvars = {};
+                    flashvars.connection = connectionUrl;//"rtmp://52.25.129.48:1935/55baee889ba5ebb03d4bca0d";
+                    flashvars.stream = streamUrl;//"55baee889ba5ebb03d4bca0d.stream";
+                    flashvars.progressfile ="http://52.11.84.161:1337/progress.gif";
+                    var params = {};
+                    params.quality = "high";
+                    params.bgcolor = "#2d2d2d";
+                    params.allowscriptaccess = "sameDomain";
+                    params.allowfullscreen = "true";
+                    var attributes = {};
+                    attributes.id = "ZcPlayer";
+                    attributes.name = "ZcPlayer";
+                    attributes.align = "middle";
+                    swfobject.embedSWF(
+                        "/ZcPlayer.swf", "flashContent", 
+                        "500", "350", 
+                        swfVersionStr, xiSwfUrlStr, 
+                        flashvars, params, attributes);
+                    // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+                    swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+                </script>
+
+
+                <div id="flashContent">
+                <p>
+                    To view this page ensure that Adobe Flash Player version 
+                    11.1.0 or greater is installed. 
+                </p>
+                <script type="text/javascript"> 
+                    var pageHost = ((document.location.protocol == "https:") ? "https://" : "http://"); 
+                    document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='" 
+                                    + pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" ); 
+                </script> 
+                </div>
+        
+                <noscript>
+                      <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="500" height="350" id="ZcPlayer">
+                          <param name="movie" value="/ZcPlayer.swf" />
+                          <param name="quality" value="high" />
+                          <param name="bgcolor" value="#2d2d2d" />
+                          <param name="allowScriptAccess" value="sameDomain" />
+                          <param name="allowFullScreen" value="true" />
+                          <!--[if !IE]>-->
+                          <object type="application/x-shockwave-flash" data="/ZcPlayer.swf" width="500" height="350">
+                              <param name="quality" value="high" />
+                              <param name="bgcolor" value="#2d2d2d" />
+                              <param name="allowScriptAccess" value="sameDomain" />
+                              <param name="allowFullScreen" value="true" />
+                          <!--<![endif]-->
+                          <!--[if gte IE 6]>-->
+                              <p> 
+                                  Either scripts and active content are not permitted to run or Adobe Flash Player version
+                                  11.1.0 or greater is not installed.
+                              </p>
+                          <!--<![endif]-->
+                              <a href="http://www.adobe.com/go/getflashplayer">
+                                  <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+                              </a>
+                          <!--[if !IE]>-->
+                          </object>
+                          <!--<![endif]-->
+                      </object>
+                  </noscript> 
+
+
+                </center>                
+
+              </div>
+            </div>
+          </div>
+
+          <% if (!bsharedStream) {%>
+          <div class="row">
+            <div class="col s8">
+            </div>
+            <div class="col s4 right">
+              <a class="waves-effect waves-light btn modal-trigger right" href="#shareStreamModal">Share<i class="mdi-file-folder-shared left"></i></a>
+            </div>
+          </div>
+          <% if (streamData.share_urls.length > 0) { %>
+          <div class="row">
+              <div class="col s8">
+              </div>
+              <div class="col s4 right">
+                <a class="waves-effect waves-light btn modal-trigger right" href="#viewShareStreamModal">View&nbsp;Share</a>
+              </div>
+          </div>
+          <% } %>
+          <%}%>
+
+        </div>
+        <% } %>
+      </div>
+    <% } else { %>
+      <p class="flow-text centered-text"><%= __('message.no_streams') %></p>
+      <p class="flow-text centered-text"><small><a href="/stream/create"><%= __('message.no_streams_add') %></a></small></p>
+    <% } %>
+  </div>
+</div>
+
+<% if(streamData != null) { %>
+<!-- Modal Structure -->
+<form action="/user/doShare" method="POST">
+<input type="hidden" name="streamid" value="<%=streamData.id%>"/>
+<div id="shareStreamModal" class="modal">
+  <div class="modal-content">
+    <h6>Please enter email address you want to send.</h6>
+    <p>
+      <div class="row">
+        <div class="input-field col s12">
+          <input class="validate" id="emailid" type="email" name="emailShare">
+          <label for="emailid" data-error="wrong" data-success="right"><%= __('label.email') %></label>
+        </div>
+      </div>
+    </p>
+  </div>
+  <div class="modal-footer">
+      <button class="col s2 btn waves-effect waves-light">
+        Share
+      </button>
+  </div>
+</div>
+</form>
+
+<form action="/user/doViewShare" method="POST">
+<input type="hidden" name="streamid" value="<%=streamData.id%>"/>
+<div id="viewShareStreamModal" class="modal">
+  <div class="modal-content">
+    <h6>If you stop to share of video, uncheck and click Apply button.</h6>
+    <p>
+      <div class="row">
+        <div class="section">
+          <table class="centered bordered striped hoverable">
+          <thead>
+            <th>Email Address</th>
+            <th>Shared</th>
+          </thead>
+          <tbody>
+            <% streamData.share_urls.forEach(function(url_entry, index) { %>
+              <tr>
+                <td><%= url_entry.emailTo %></td>
+                <td>
+                <input type="checkbox" class="filled-in" id="shared<%=index%>" value="<%= url_entry.emailTo %>" name="shared[]" <% if (url_entry.isShared) { %> checked="checked" <% } %> />
+                <label for="shared<%=index%>"></label>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+          </table>
+        </div>
+      </div>
+    </p>
+  </div>
+  <div class="modal-footer">
+      <button class="col s2 btn waves-effect waves-light">
+        Apply
+      </button>
+  </div>
+</div>
+</form>
+
+<% } %>

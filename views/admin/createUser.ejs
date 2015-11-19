@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <div class="col s6 offset-s3">
+      
+        <% if(typeof success === 'undefined') { %>
+        <div class="card-panel z-depth-2 blue-grey white-text">
+          <h3 class="centered-text"><i class="mdi-action-settings"></i> <%= __('label.create_user') %></h3>
+          <% if(typeof error !== 'undefined') { %>
+            <p class="flow-text centered-text rex-text"><%= __('error.' + error) %></p>
+          <% } %>
+          <form method="POST">
+            <div class="row">
+              <div class="input-field col s12">
+                <input class="validate" required type="text" autocomplete="off" name="username">
+                <label><%= __('label.username') %></label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input class="validate" required type="password" name="password">
+                <label><%= __('label.password') %></label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input class="validate" required type="text" autocomplete="off" name="fullname">
+                <label><%= __('label.fullname') %></label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input class="validate" required id="emailid" type="email" name="email">
+                <label for="emailid" data-error="wrong" data-success="right"><%= __('label.email') %></label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input class="validate" required type="text" autocomplete="off" name="phonenumber" onkeypress="return isPhoneKey(event);"/>
+                <label><%= __('label.phonenumber') %></label>
+              </div>
+            </div>
+            <div class="row">
+              <button class="col s12 btn waves-effect waves-light">
+                <%= __('label.submit') %>
+                <i class="mdi-navigation-check right"></i>
+              </button>
+            </div>
+            <% if(user.isAdmin) { %>
+            <div class="row">
+              <a href="/admin/users" class="col s12 btn waves-effect waves-light grey">
+                <%= __('label.back_admin') %>
+                <i class="mdi-content-send right"></i>
+              </a>
+            </div>
+            <% } %>
+          </form>
+        </div>
+        <% } else { %>
+          <div class="card-panel z-depth-2 blue-grey white-text">
+            <h3 class="light-weight centered-text"><%= __('message.user_created') %></h3>
+            <div class="row">
+            <a href="/admin/users" class="col s12 btn waves-effect">
+              <%= __('label.users') %>
+              <i class="mdi-content-send right"></i>
+            </a>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>

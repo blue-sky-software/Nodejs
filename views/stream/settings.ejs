@@ -1,0 +1,110 @@
+<input id="vpnip" type="hidden" value="http://<%= stream.cameraAdmin + ':' + stream.cameraPass + '@' + stream.ip %>"/>
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <div class="col s6">
+        <div class="card-panel z-depth-2 blue-grey darken-2 white-text">
+          <div class="row">
+            <div class="col s12 center">
+              <h2 style="font-weight:200"><%= stream.cameraModel %></h2>
+              <p class="flow-text"><small>Settings</small></p>
+            </div>
+            <form action="/stream/updateSettings/<%= stream.id %>" method="POST" class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" autocomplete="off" name="baseUrl" value="<%= stream.notify_url  %>" autofocus="autofocus" class="validate" required disabled/>
+                  <label>Motion Detect Callback URL</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input type="text" autocomplete="off" name="phonenumber" value="<%= stream.phoneNumber %>" autofocus="autofocus" class="validate" required onkeypress="return isPhoneKey(event);"/>
+                  <label>Phone Number</label>
+                </div><small><b>Note:</b> Please make sure to include your country code in your phone number.</small>
+              </div>
+              <div class="row">
+                <button class="col s12 btn waves-effect waves-light">Update<i class="mdi-content-send right"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col s6">
+        <div class="card-panel z-depth-2 blue-grey darken-2 white-text wifi-panel">
+          <div class="row">
+            <div class="col s12">
+              <h2 style="font-weight:200" class="center">WiFi</h2>
+              <p class="center flow-text"><small id="wifiConnected"></small></p>
+              <div class="row">
+                <div id="wifiPreload" class="col s12 center">
+                  <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="wifiForm" style="display:none" class="col s12">
+                  <div style="margin-bottom:0" class="row">
+                    <form class="col s12">
+                      <div style="margin-bottom:0" class="row">
+                        <div class="col s12 center">
+                          <div class="switch">
+                            <label>Off
+                              <input type="checkbox"/><span class="lever"></span>On
+                            </label>
+                          </div>
+                        </div>
+                        <div class="input-field col s12">
+                          <input type="password" autocomplete="off" name="password" value="password" autofocus="autofocus" class="validate" required/>
+                          <label>Password</label>
+                        </div>
+                        <div class="input-field col s12">
+                          <input type="text" autocomplete="off" name="ssid" value="ssid" autofocus="autofocus" class="validate" required/>
+                          <label>SSID</label>
+                        </div>
+                        <!--div class="col s12">
+                          <label style="text-align:left">Encrypt</label>
+                          <select style="color:white" name="encrypt" class="white-text">
+                            <option selected="selected" disabled="disabled">Select</option>
+                            <option value="WPA2PSK">WPA2-PSK</option>
+                            <option value="WPAPSK">WPA-PSK</option>
+                            <option value="WEP">WEP</option>
+                            <option value="NONE">NONE</option>
+                          </select>
+                        </div>
+                        <div class="col s12">
+                          <label style="text-align:left">Encrypt Type</label>
+                          <select style="color:white" name="encryptType" class="white-text">
+                            <option selected="selected" disabled="disabled">Select</option>
+                            <option value="AES">AES</option>
+                            <option value="TKIP">TKIP</option>
+                          </select>
+                        </div-->
+                        <button class="col s12 btn waves-effect waves-light">Update<i class="mdi-content-send right"></i></button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-panel z-depth-2 red white-text">
+          <div class="row">
+            <div class="col s12 center">
+              <form method="POST" action="/stream/delete/<%= stream.id %>" class="row">
+                <div class="col s12">
+                  <h2 style="font-weight:200">Delete</h2>
+                  <p class="flow-text"><small>This action cannot be undone.</small></p>
+                </div>
+                <button class="col s12 btn waves-effect waves-light red lighten-3">Confirm Delete<i class="mdi-action-delete right"></i></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

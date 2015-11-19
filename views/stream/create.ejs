@@ -1,0 +1,187 @@
+<script>
+
+var autoState = false;
+
+function autoComplete() {
+	if(autoState) {
+		procAutoComplete();
+	}
+}
+
+function procAutoComplete() {
+	var url = 'rtsp://';
+	url += $('#cameraUserName').val() + ':';
+	url += $('#cameraPassword').val() + '@';
+	url += $('#cameraIP').val() + ':';
+	url += $('#cameraPort').val();
+	url += '/video1/h.264/720p.sdp?switchstream=1';
+	$('#cameraUrl').val(url);
+	$('#cameraUrl').focus();
+}
+
+function onCheck() {
+	autoState = !autoState;
+	if(autoState) {
+		procAutoComplete();
+	//	$('#cameraUrl').attr("disabled", true);
+	} else {
+		$('#cameraUrl').val('');
+	//	$('#cameraUrl').attr("disabled", false);
+	}
+}
+
+
+</script>
+
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <div class="col s12">
+        <div class="card-panel z-depth-2 blue-grey darken-2 white-text">
+          <div class="row">
+            <div class="col s12 center">
+              <!--h2 style="font-weight:200"><i class="mdi-content-add large"></i></h2-->
+              <p class="flow-text">Add New Camera</p>
+            </div>
+           <form action="/stream/doCreate/<%=owner%>" method="POST" class="col s12">
+              <div class="row">
+                <div class="input-field col s12">
+                  <div class="col s10">
+                    <select style="color:white" name="cameraModel" required class="white-text">
+                         <option value="DefaultCamera" selected>DefaultCamera</option>
+                    <% modellist.forEach ( function(model) { %>
+                    	   <option value="<%=model.name%>"><%=model.name%></option>
+                    <% }); %>
+                    <% if (modellist.length === 0) { %>
+                         <!--option value="" disabled selected></option-->
+                    <% } %>
+
+  	  	            </select>
+                    <label >Select Camera Model :</label>
+                  </div>
+                  <% if(user.isAdmin) { %>
+                  <div class="col s2">
+                      <i class="mdi-image-control-point small clickimage" onclick="$('#viewCameraModalAdd').openModal(); $('#cameraid').focus();"></i>
+                      <i class="mdi-editor-mode-edit small clickimage" onclick="$('#viewCameraModalEdit').openModal();"></i>
+                  </div>
+                  <% } %>
+                </div>
+
+             </div>
+              <div class="row">
+                <div class="div col s6">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input type="text" autocomplete="off" name="description" autofocus="autofocus" class="validate" required/>
+                      <label>Camera Name:</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input type="text" autocomplete="off" name="port" autofocus="autofocus" class="validate" required maxlength="5" id="cameraPort" onchange="autoComplete();" onkeypress="return isNumberKey(event);"/>
+                      <label>Port:</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input type="tel" autocomplete="off" name="phoneNumber" autofocus="autofocus" class="validate" required onkeypress="return isPhoneKey(event);"/>
+                      <label>Phone Number:</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col s6">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input type="text" autocomplete="off" name="ip" autofocus="autofocus" class="validate" required id="cameraIP" onchange="autoComplete();"/>
+                      <label>DNS/IP:</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s6">
+                      <input type="text" autocomplete="off" name="cameraAdmin" autofocus="autofocus" class="validate" required id="cameraUserName" onchange="autoComplete();"/>
+                      <label>Camera Username:</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input type="password" autocomplete="off" name="cameraPass" autofocus="autofocus" class="validate" required id="cameraPassword" onchange="autoComplete();"/>
+                      <label>Camera Password:</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                  <input type="checkbox" class="filled-in" id="autoOption" name="autoOption" onclick="onCheck();"/>
+                  <label for="autoOption">Auto Complete</label>
+                <div class="input-field col s12">
+                  <input type="text" autocomplete="on" name="cameraUrl" autofocus="autofocus" class="validate" required  id="cameraUrl"/>
+                  <label>Stream URL:</label>
+                </div>
+              </div>
+	      <div class="row">
+                <button class="col s12 btn waves-effect waves-light" >Save<i class="mdi-content-send right"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Structure -->
+<form action="/admin/addCameraModel" method="POST">
+<input type="hidden" name="returnUrl" value="<%= url %>">
+<div id="viewCameraModalAdd" class="modal">
+  <div class="modal-content">
+  <h6>Please enter new camera model.</h6>
+    <p>
+      <div class="row">
+        <div class="input-field col s12">
+          <input autofocus="autofocus" class="validate" required id="cameraid" type="text" name="cameraid">
+        </div>
+      </div>
+    </p>
+  </div>
+  <div class="modal-footer">
+      <button class="col s2 btn waves-effect waves-light">
+        Add
+      </button>
+  </div>
+</div>
+</form>
+
+<!-- Modal Structure -->
+<form action="/admin/saveCameraModel" method="POST">
+<input type="hidden" name="returnUrl" value="<%= url %>">
+<div id="viewCameraModalEdit" class="modal">
+  <div class="modal-content">
+    <p>
+      <div class="row">
+        <div class="section">
+          <table class="centered bordered striped hoverable">
+          <thead>
+            <th>Camera Model</th>
+            <th>Action</th>
+          </thead>
+          <tbody>
+            <% modellist.forEach(function(model, index) { %>
+              <tr>
+                <td><%= model.name %></td>
+                <td>
+                <input type="checkbox" class="filled-in" id="shared<%=index%>" value="<%= model.name %>" name="shared[]" checked="checked" />
+                <label for="shared<%=index%>"></label>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+          </table>
+        </div>
+      </div>
+    </p>  </div>
+  <div class="modal-footer">
+      <button class="col s2 btn waves-effect waves-light">
+        Save
+      </button>
+  </div>
+</div>
+</form>

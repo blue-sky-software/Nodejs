@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= __('app.name') %></title>
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="http://flash.flowplayer.org/favicon.ico">
+    <script src="http://releases.flowplayer.org/js/flowplayer-3.2.13.min.js"></script>
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/custom.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/materialize.min.css">
+    <link rel="stylesheet" href="/styles/vegas.css">
+    <!--STYLES END-->
+  </head>
+
+  <body>
+    <div class="navbar-fixed">
+      <% if(typeof user !== 'undefined') { %>
+        <ul id="userDropdown" class="dropdown-content">
+          <li><a href="/settings"><%= __('label.settings') %></a></li>
+          <li class="divider"></li>
+          <li><a href="/logout"><%= __('label.logout') %></a></li>
+        </ul>
+        <% if(user.isAdmin) { %>
+        <ul id="adminDropdown" class="dropdown-content">
+          <li><a href="/admin/users"><%= __('label.admin.users') %></a></li>
+        </ul>
+        <% } %>
+      <% } %>
+      <nav class="blue-grey darken-4">
+        <div class="nav-wrapper container">
+          <a href="/" class="brand-logo"><i class="large mdi-device-wifi-lock"></i> <%= __('app.name') %></a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <% if(typeof user === 'undefined') { %>
+              <li><a href="/login"><%= __('label.login') %></a></li>
+            <% } else { %>
+              <% if(!user.isAdmin) { %>
+              <li><a href="/dashboard"><%= __('label.dashboard') %></a></li>
+              <% } %>
+              
+              <% if(user.isAdmin) { %>
+                <li><a href="/admin/users"><%= __('label.admin.users') %></a></li>
+              <% } %>
+
+              <li><a class="dropdown-button" href="#!" data-activates="userDropdown"><%= user.username %><i class="mdi-navigation-arrow-drop-down right"></i></a></li>
+            <% } %>
+          </ul>
+        </div>
+      </nav>
+    </div>
+        
+    <%- body %>
+
+    <!--SCRIPTS-->
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/dependencies/jquery.js"></script>
+    <script src="/js/dependencies/materialize.js"></script>
+    <script src="/js/dependencies/vegas.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/init.js"></script>
+    <script src="/js/swfobject.js"></script>
+    <!--SCRIPTS END-->
+  </body>
+</html>

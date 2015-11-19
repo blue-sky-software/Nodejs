@@ -1,0 +1,95 @@
+<div class="container">
+  <div class="row">
+    <div class="col s3">
+      <div class="section">
+        <ul class="collection with-header">
+          <a href="/admin/createUser" class="collection-item">Create New User</a>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col s9">
+      <div class="section">
+        <table class="centered bordered striped hoverable">
+          <thead>
+            <th>ID</th>
+            <th><!-- <a href="?order=username&page=<%= page %>"> -->Username<!-- </a> --></th>
+            <th>Email</th>
+            <th class="left">Status</th>
+          </thead>
+          <tbody>
+            <% users.forEach(function(user) { %>
+              <tr>
+                <td><a href="/admin/cameraSettings/<%= user.id %>"><%= user.username %></a></td>
+                <td><%= user.fullname %></td>
+                <td><%= user.email %></td>
+                  <% if(user.isActive) { %>
+                  <td><i class="mdi-action-verified-user left">Active</i></td>
+                    <td>
+                    <% if(!user.isAdmin) { %>
+                    <a href="/admin/inactiveUser/<%= user.id%>"><i class="mdi-action-lock center"></i></a>
+                    <% } %>
+                    </td>
+                  <% } else { %>
+                  <td><i class="mdi-hardware-security left">InActive</i></td>
+                    <td>
+                    <% if(!user.isAdmin) { %>
+                    <a href="/admin/activeUser/<%= user.id%>"><i class="mdi-action-lock-open center"></i></a>
+                    <% } %>
+                    </td>
+                  <% } %>
+		  <td>
+		  <% if(!user.isAdmin) {  %>
+                    <a onclick="
+		 	  if (confirm('Are you sure you want to delete this user?')) {
+                              window.location.href = '/admin/deleteUser?id=<%= user.id %>';
+                          }
+			"><i class="mdi-action-highlight-remove center clickimage"></i></a>
+		<% } %>
+	 	  </td>
+              </tr>
+            <% }); %>
+           </tbody>
+        </table>
+      </div>
+      <div class="section">
+        <ul class="pagination">
+          <li class="waves-effect <%= (backPage === -1 ? 'disabled' : '') %>">
+            <a href="<%= (backPage === -1 ? '#!' : '?page=' + backPage) %>"><i class="mdi-navigation-chevron-left"></i></a>
+          </li>
+          <% for(var i = 1; i <= pages; i++) { %>
+            <li class="<%= (i === page ? 'active' : '' ) %>">
+              <a href="?page=<%= i %>"><%= i %></a>
+            </li>
+          <% } %>
+          <li class="waves-effect <%= (nextPage === -1 ? 'disabled' : '') %>">
+            <a href="<%= (nextPage === -1 ? '#!' : '?page=' + nextPage) %>"><i class="mdi-navigation-chevron-right"></i></a>
+          </li>
+        </ul>
+        <br />
+        <!-- <p class="flow-text"><small>Displaying 50 of 125 users</small></p> -->
+      </div>
+    </div>
+  </div>
+
+<!--   <div class="section">
+    <h3 class="light-weight">125 total users</h3>
+  </div> -->
+<!--   <div class="section">
+    <table class="centered bordered striped hoverable">
+      <thead>
+        <th>Username</th>
+        <th>Last Active</th>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <ul class="pagination">
+      <li class="disabled"><a href="#!"><i class="mdi-navigation-chevron-left"></i></a></li>
+      <li class="active"><a href="#!">1</a></li>
+      <li class="disabled waves-effect"><a href="#!"><i class="mdi-navigation-chevron-right"></i></a></li>
+    </ul>
+  </div> -->
+</div>

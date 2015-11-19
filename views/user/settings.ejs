@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="section">
+    <div class="row">
+      <div class="col s6 offset-s3">
+        <div class="card-panel z-depth-2 blue-grey white-text">
+          <h3 class="centered-text"><i class="mdi-action-settings"></i> <%= __('label.settings') %></h3>
+          <% if(typeof success !== 'undefined') { %>
+            <% if(success === true) { %>
+              <p class="flow-text light-green-text centered-text accent-3"><%= __('message.settings_updated') %></p>
+            <% } else { %>
+              <p class="flow-text red-text centered-text"><%= __('error.settings.update') %></p>
+            <% } %>
+          <% } %>
+          <form method="POST">
+            <div class="row">
+              <div class="input-field col s12">
+                <input class="validate" required type="text" autocomplete="off" value="<%= suser.username %>" <%= user.isAdmin ? 'name=username' : 'disabled=""' %>>
+                <label><%= __('label.username') %></label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input class="validate" required type="password" name="password">
+                <label><%= __('label.password') %></label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input class="validate" required type="text" autocomplete="off" value="<%= suser.fullname %>" name="fullname">
+                <label><%= __('label.fullname') %></label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input class="validate" required id="emailid" type="email" name="email" value="<%=suser.email%>">
+                <label for="emailid" data-error="wrong" data-success="right"><%= __('label.email') %></label>
+              </div>
+            </div>
+            <div class="row">
+              <button class="col s12 btn waves-effect waves-light">
+                <%= __('label.update') %>
+                <i class="mdi-navigation-check right"></i>
+              </button>
+            </div>
+            <% if(user.isAdmin && suser.id !== user.id) { %>
+            <div class="row">
+              <a href="/admin/deleteUser/<%= suser.id %>" class="col s12 red btn waves-effect waves-light">
+                <%= __('label.delete') %>
+                <i class="mdi-content-send right"></i>
+              </a>
+            </div>
+            <div class="row">
+              <a href="/admin/users" class="col s12 btn waves-effect waves-light grey">
+                <%= __('label.back_admin') %>
+                <i class="mdi-content-send right"></i>
+              </a>
+            </div>
+            <% } %>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
